@@ -84,7 +84,10 @@ def cusumRepeat(arma, d):
 
 # Function to simulate ARIMA model as the python package statsmodels only
 # supports simulations of ARMA models
-def simArima(n, ar=np.array([0]), ma=np.array([0]), d=0):
+def simArima(n,sigma, ar=np.array([0]), ma=np.array([0]),  d=0):
+    if sigma == None:
+        print('[WARNING] Sigma is set to 1!')
+        sigma = 1
     if np.array_equal(ar, np.array([0])) and np.array_equal(ma, np.array([0])):
         print(
             "Neither autoregressive parameters and moving average parameters are set. At least one need to be speficifyed")
@@ -93,7 +96,7 @@ def simArima(n, ar=np.array([0]), ma=np.array([0]), d=0):
     ar = np.r_[1, -ar]  # add zero-lag and negate
     ma = np.r_[1, ma]  # add zero-lag
 
-    arimaSim = arma_generate_sample(ar, ma, n)
+    arimaSim = arma_generate_sample(ar, ma, n, sigma=sigma)
 
     # Apply integration to the arma simulation
     if d > 0:
